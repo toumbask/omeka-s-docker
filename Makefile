@@ -42,7 +42,7 @@ distclean: clean
 rebuild:
 	make distclean
 	make build
-	make start
+	make run
 
 .PHONY: build run stop start clean distclean rebuild 
 

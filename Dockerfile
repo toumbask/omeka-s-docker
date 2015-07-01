@@ -5,7 +5,6 @@ MAINTAINER Lincoln Mullen <lincoln@lincolnmullen.com>
 RUN apt-get update && \
     apt-get -y install git ant 
 RUN cd / && rm -rf /app && git clone https://github.com/omeka/omeka-s.git /app
-RUN chmod -R a+rwx /app/files
 RUN a2enmod rewrite
 RUN ant init
 COPY ./files/database.ini /app/config/database.ini
