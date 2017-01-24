@@ -37,6 +37,7 @@ COPY ./files/database.ini /var/www/html/config/database.ini
 COPY ./files/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 # set the file-rights
 RUN chown -R www-data:www-data /var/www/html/
-RUN chmod -R +w /var/www/html/files
 # Expose the Port we'll provide Omeka on
 EXPOSE 80
+# Set file rights on every start
+CMD /bin/chmod -R +w /var/www/html/files && /bin/chown -R www-data:www-data /var/www/html/files
