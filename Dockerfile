@@ -1,4 +1,4 @@
-FROM php:latest
+FROM php:apache
 MAINTAINER Jonas Strassel <jo.strassel@gmail.com>
 # Install git ant and java
 RUN apt-get update && \

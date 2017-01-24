@@ -15,9 +15,14 @@ A [Docker](https://www.docker.com/) container for [Omeka S](https://github.com/o
 
 4. Run
 
-    `docker run -d --name docker_instance_name -p [HTTP_PORT]:80 -v /var/run/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock -v /path/to/save/omekas/files:/var/www/html/files omeka`
+    `docker run -d --name omeka_instance_name -p [HTTP_PORT]:80 -v /var/run/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock -v /path/to/save/omekas/files:/var/www/html/files omeka`
     
-    where `[HTTP_PORT]` is the port where you'd like to expose Omeka-S on and `[MYSQL_PORT]` is the port via which your MySQL-Database is running on.
+    where `[HTTP_PORT]` is the port where you'd like to expose Omeka-S on...
 
 ### Use
 - Access the page on `http://localhost:[HTTP_PORT]/install`
+
+### Notice
+Omeka-S is not ready for production. For that reason I wanted to provide measures to change your whole deployment against a new one without loosing files and database.
+
+This project has been encouraged by [RAHLWES - HISTORICAL RESEARCH SERVICE](https://rahlwes.eu/).
