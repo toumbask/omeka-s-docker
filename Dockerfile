@@ -1,4 +1,4 @@
-FROM php:5.6-apache
+FROM php:latest
 MAINTAINER Jonas Strassel <jo.strassel@gmail.com>
 # Install git ant and java
 RUN apt-get update && \
@@ -30,6 +30,8 @@ COPY files/php.ini /usr/local/etc/php/
 RUN cd /var/www/html/ && ant init
 # Clone all the Omeka-S Modules
 RUN cd /var/www/html/modules && curl "https://api.github.com/users/omeka-s-modules/repos?page=$PAGE&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone
+# Clone all the Omeka-S Themes
+RUN cd /var/www/html/ && curl "https://api.github.com/users/omeka-s-themes/repos?page=$PAGE&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone
 # copy over the database and the apache config
 COPY ./files/database.ini /var/www/html/config/database.ini
 COPY ./files/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
