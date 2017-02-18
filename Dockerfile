@@ -21,7 +21,8 @@ RUN docker-php-ext-install -j$(nproc) iconv mcrypt \
     pdo pdo_mysql gd
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 # Clone omeka-s
-RUN cd / && rm -rf /var/www/html/ && git clone https://github.com/omeka/omeka-s.git /var/www/html/
+RUN cd / && rm -rf /var/www/html/
+ADD omeka-s /var/www/html/
 # enable the rewrite module of apache
 RUN a2enmod rewrite
 # Create a default php.ini
