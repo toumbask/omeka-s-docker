@@ -3,7 +3,7 @@
 A [Docker](https://www.docker.com/) container for [Omeka S](https://github.com/omeka/omeka-s). It has no MySQL-Database included.
 
 ### Start in seconds
-`docker run -d --name omeka_rahlwes_17_02_18_1 -p 8001:80 \
+`docker run -d --name omeka_instance_name -p 8001:80 \
 -v /path/to/your/custom/database.ini:/var/www/html/config/database.ini \
 -v /var/run/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock \
 -v /path/to/save/omeka/files:/var/www/html/files boredland/omeka-s-docker`
