@@ -1,7 +1,6 @@
 FROM php:apache
 MAINTAINER Jonas Strassel <jo.strassel@gmail.com>
 # Install git ant and java
-RUN curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
 RUN apt-get -y install \
     git-core \
 #    ant \
@@ -16,7 +15,11 @@ RUN apt-get -y install \
     libpng12-dev \
     libmemcached-dev \
     zlib1g-dev \
-    imagemagick
+    imagemagick \
+    gnupg
+
+RUN curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+
 # Install php-extensions
 RUN docker-php-ext-install -j$(nproc) iconv mcrypt \
     pdo pdo_mysql gd
