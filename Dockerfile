@@ -1,7 +1,7 @@
 FROM php:apache
 MAINTAINER Jonas Strassel <jo.strassel@gmail.com>
 # Install git ant and java
-RUN apt-get -y install \
+RUN apt-get update && apt-get -y install \
     git-core \
 #    ant \
 #    openjdk-7-jdk \
