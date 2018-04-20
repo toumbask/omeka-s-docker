@@ -1,10 +1,11 @@
 FROM php:apache
 MAINTAINER Jonas Strassel <jo.strassel@gmail.com>
 # Install git ant and java
-RUN apt-get update && apt-get -y install \
+RUN apt-get update && apt-get -y install gnupg
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+
+RUN apt-get -y install \
     git-core \
-#    ant \
-#    openjdk-7-jdk \
     nodejs \
     apt-utils \
     zip \
@@ -12,17 +13,15 @@ RUN apt-get update && apt-get -y install \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libmcrypt-dev \
-    libpng12-dev \
+    libpng-dev \
     libmemcached-dev \
     zlib1g-dev \
-    imagemagick \
-    gnupg
-
-RUN curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
-
+    imagemagick
 # Install php-extensions
-RUN docker-php-ext-install -j$(nproc) iconv mcrypt \
-    pdo pdo_mysql gd
+RUN pecl install mcrypt-1.0.1
+RUN docker-php-ext-enable mcrypt
+
+RUN docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql gd
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 # Clone omeka-s - replace with git clone...
 
@@ -37,12 +36,11 @@ COPY files/php.ini /usr/local/etc/php/
 # build omeka-s
 RUN cd /var/www/html/
 # && ant init
-RUN node -v
+#RUN node -v
 RUN npm -v
 RUN cd /var/www/html/ && npm install
 RUN cd /var/www/html/ && npm install --global gulp-cli 
 RUN cd /var/www/html/ && gulp init
-
 
 # Clone all the Omeka-S Modules
 RUN cd /var/www/html/modules && curl "https://api.github.com/users/omeka-s-modules/repos?page=$PAGE&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone
