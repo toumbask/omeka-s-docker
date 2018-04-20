@@ -1,7 +1,7 @@
 FROM php:apache
 MAINTAINER Jonas Strassel <jo.strassel@gmail.com>
 # Install git ant and java
-#RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
 RUN apt-get -y install \
     git-core \
 #    ant \
