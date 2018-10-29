@@ -1,14 +1,10 @@
 FROM php:apache
 MAINTAINER Jonas Strassel <jo.strassel@gmail.com>
 # Install git ant and java
-RUN apt-get update && apt-get -y install gnupg
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
-
-RUN apt-get -y install \
+RUN apt-get update && \
+    apt-get -y install --no-install-recommends \
     git-core \
-    nodejs \
     apt-utils \
-    zip \
     unzip \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
@@ -17,35 +13,27 @@ RUN apt-get -y install \
     libmemcached-dev \
     zlib1g-dev \
     imagemagick
-# Install php-extensions
+#Install php-extensions
 RUN pecl install mcrypt-1.0.1
 RUN docker-php-ext-enable mcrypt
 
 RUN docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql gd
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
-# Clone omeka-s - replace with git clone...
 
+#Clone omeka-s - replace with git clone...
 RUN rm -rf /var/www/html/*
-RUN git clone https://github.com/omeka/omeka-s.git /var/www/html
-
-# enable the rewrite module of apache
+ADD https://github.com/omeka/omeka-s/releases/download/v1.2.0/omeka-s-1.2.0.zip /tmp/omeka-s.zip
+RUN unzip -d /tmp/ /tmp/omeka-s.zip && mv /tmp/omeka-s/* /var/www/html/ && rm -rf /tmp/omeka-s*
+ADD https://raw.githubusercontent.com/omeka/omeka-s/develop/.htaccess.dist /var/www/html/.htaccess
+#enable the rewrite module of apache
 RUN a2enmod rewrite
-# Create a default php.ini
+#Create a default php.ini
 COPY files/php.ini /usr/local/etc/php/
 
-# build omeka-s
-RUN cd /var/www/html/
-# && ant init
-#RUN node -v
-RUN npm -v
-RUN cd /var/www/html/ && npm install
-RUN cd /var/www/html/ && npm install --global gulp-cli 
-RUN cd /var/www/html/ && gulp init
-
-# Clone all the Omeka-S Modules
-RUN cd /var/www/html/modules && curl "https://api.github.com/users/omeka-s-modules/repos?page=$PAGE&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone
-# Clone all the Omeka-S Themes
-RUN cd /var/www/html/themes && rm -r default && curl "https://api.github.com/users/omeka-s-themes/repos?page=$PAGE&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone
+#Clone all the Omeka-S Modules
+#RUN cd /var/www/html/modules && curl "https://api.github.com/users/omeka-s-modules/repos?page=$PAGE&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone
+#Clone all the Omeka-S Themes
+#RUN cd /var/www/html/themes && rm -r default && curl "https://api.github.com/users/omeka-s-themes/repos?page=$PAGE&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone
 # copy over the database and the apache config
 COPY ./files/database.ini /var/www/html/config/database.ini
 COPY ./files/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
