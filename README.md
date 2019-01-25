@@ -18,7 +18,7 @@ The first `/var/run/mysqld/mysqld.sock` is the hosts mysql-socket.
 - Access the page on `http://localhost:[HTTP_PORT]/install`
 
 ### Replacing
-You can easyly replace you current install. I prefer just stopping the current container (`docker stop [omeka_instance_name]`) and run a new one with the parameters above (you'll have to modify the instance-name though..).
+You can easily replace you current install. I prefer just stopping the current container (`docker stop [omeka_instance_name]`) and run a new one with the parameters above (you'll have to modify the instance-name though..).
 
 ### Notice
 Omeka-S is not ready for production. For that reason I wanted to provide means to change your whole deployment against a new one without loosing files and database.

@@ -1,4 +1,4 @@
-FROM php:apache
+FROM php:7.2-apache
 MAINTAINER Jonas Strassel <jo.strassel@gmail.com>
 # Install git ant and java
 RUN apt-get update && \
@@ -22,7 +22,7 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
 
 #Clone omeka-s - replace with git clone...
 RUN rm -rf /var/www/html/*
-ADD https://github.com/omeka/omeka-s/releases/download/v1.2.0/omeka-s-1.2.0.zip /tmp/omeka-s.zip
+ADD https://github.com/omeka/omeka-s/releases/download/v1.3.0/omeka-s-1.3.0.zip /tmp/omeka-s.zip
 RUN unzip -d /tmp/ /tmp/omeka-s.zip && mv /tmp/omeka-s/* /var/www/html/ && rm -rf /tmp/omeka-s*
 ADD https://raw.githubusercontent.com/omeka/omeka-s/develop/.htaccess.dist /var/www/html/.htaccess
 #enable the rewrite module of apache
