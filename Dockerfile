@@ -1,6 +1,7 @@
-FROM php:7.2-apache
+FROM php:7.3-apache
 MAINTAINER Jonas Strassel <jo.strassel@gmail.com>
 # Install git ant and java
+ARG version=1.4.0
 RUN apt-get update && \
     apt-get -y install --no-install-recommends \
     git-core \
@@ -14,7 +15,7 @@ RUN apt-get update && \
     zlib1g-dev \
     imagemagick
 #Install php-extensions
-RUN pecl install mcrypt-1.0.1
+RUN pecl install mcrypt-1.0.2
 RUN docker-php-ext-enable mcrypt
 
 RUN docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql gd
@@ -22,7 +23,7 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
 
 #Clone omeka-s - replace with git clone...
 RUN rm -rf /var/www/html/*
-ADD https://github.com/omeka/omeka-s/releases/download/v1.3.0/omeka-s-1.3.0.zip /tmp/omeka-s.zip
+ADD https://github.com/omeka/omeka-s/releases/download/v${version}/omeka-s-${version}.zip /tmp/omeka-s.zip
 RUN unzip -d /tmp/ /tmp/omeka-s.zip && mv /tmp/omeka-s/* /var/www/html/ && rm -rf /tmp/omeka-s*
 ADD https://raw.githubusercontent.com/omeka/omeka-s/develop/.htaccess.dist /var/www/html/.htaccess
 #enable the rewrite module of apache

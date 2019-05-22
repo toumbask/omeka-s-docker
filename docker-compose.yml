@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  omeka:
+    image: boredland/omeka-s-docker:latest
+    links:
+    - mysql
+    restart: always
+    volumes:
+    - ./app:/var/www/html/files
+    ports:
+    - 8080:80
+  mysql:
+    image: mysql:5.7
+    command: --skip-grant-tables
+    environment:
+    - MYSQL_RANDOM_ROOT_PASSWORD=true
+    - MYSQL_DATABASE=omeka
+    - MYSQL_USER=omeka
+    - MYSQL_PASSWORD=omeka
+    #volumes:
+    #- mysql-data:/var/lib/mysql
+    #- ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    restart: always
+
+volumes:
+    mysql-data:
+        driver: local
