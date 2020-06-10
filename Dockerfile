@@ -13,7 +13,11 @@ RUN apt-get update && \
     libpng-dev \
     libmemcached-dev \
     zlib1g-dev \
-    imagemagick
+    imagemagick \
+    libcurl4-gnutls-dev \
+    libxml2 \
+    libxml2-dev \
+    libpcre3-dev
 #Install php-extensions
 RUN pecl install mcrypt-1.0.2
 RUN pecl install -n solr
