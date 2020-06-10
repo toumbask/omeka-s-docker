@@ -16,7 +16,8 @@ RUN apt-get update && \
     imagemagick
 #Install php-extensions
 RUN pecl install mcrypt-1.0.2
-RUN docker-php-ext-enable mcrypt
+RUN pecl install -n solr
+RUN docker-php-ext-enable mcrypt solr
 
 RUN docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql gd
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
