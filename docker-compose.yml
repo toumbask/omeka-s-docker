@@ -2,7 +2,7 @@ version: '2'
 
 services:
   omeka:
-    image: boredland/omeka-s-docker:latest
+    image: toumbask/omeka-s-docker:latest
     links:
     - mysql
     restart: always
